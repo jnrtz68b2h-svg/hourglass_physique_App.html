@@ -1,0 +1,50 @@
+{
+  "name": "Hourglass Physique - Fitness Companion",
+  "short_name": "Hourglass",
+  "description": "Transform your body with personalized meal plans, calorie tracking, and a complete 6-day workout split designed for the hourglass physique.",
+  "start_url": "/hourglass_physique_app_complete.html",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0F1419",
+  "theme_color": "#FF6B35",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23FF6B35' width='192' height='192'/><text x='50%' y='50%' font-size='120' font-weight='bold' text-anchor='middle' dy='.3em' fill='%23FFE66D' font-family='Arial'>♀</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect fill='%23FF6B35' width='512' height='512'/><text x='50%' y='50%' font-size='300' font-weight='bold' text-anchor='middle' dy='.3em' fill='%23FFE66D' font-family='Arial'>♀</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["fitness", "health", "lifestyle"],
+  "screenshots": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect fill='%230F1419' width='540' height='720'/><rect fill='%23FF6B35' width='540' height='80'/><text x='270' y='50' font-size='32' font-weight='bold' text-anchor='middle' fill='white' font-family='Arial'>Hourglass Physique</text></svg>",
+      "sizes": "540x720",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Track Meals",
+      "short_name": "Meals",
+      "description": "Quick access to meal tracking",
+      "url": "/hourglass_physique_app_complete.html?tab=meals",
+      "icons": [{"src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%234ECDC4' width='192' height='192'/><text x='50%' y='50%' font-size='100' text-anchor='middle' dy='.3em' fill='white' font-family='Arial'>🍽️</text></svg>", "sizes": "192x192"}]
+    },
+    {
+      "name": "View Tracker",
+      "short_name": "Tracker",
+      "description": "Quick access to calorie tracker",
+      "url": "/hourglass_physique_app_complete.html?tab=tracker",
+      "icons": [{"src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23FFE66D' width='192' height='192'/><text x='50%' y='50%' font-size='100' text-anchor='middle' dy='.3em' fill='black' font-family='Arial'>🔥</text></svg>", "sizes": "192x192"}]
+    }
+  ]
+}

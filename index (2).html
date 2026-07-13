@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="Hourglass Physique - Transform your body with personalized meal plans, calorie tracking, and a complete 6-day workout split.">
+    <meta name="theme-color" content="#FF6B35">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Hourglass">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%23FF6B35' width='180' height='180'/><text x='50%' y='50%' font-size='100' font-weight='bold' text-anchor='middle' dy='.3em' fill='%23FFE66D' font-family='Arial'>♀</text></svg>">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23FF6B35' width='100' height='100'/><text x='50%' y='50%' font-size='60' font-weight='bold' text-anchor='middle' dy='.3em' fill='%23FFE66D' font-family='Arial'>♀</text></svg>">
+    <title>Hourglass Physique - Fitness Companion</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #FF6B35;
+            --secondary: #4ECDC4;
+            --accent: #FFE66D;
+            --dark-bg: #0F1419;
+            --card-bg: #1A1F2E;
+            --border-color: #2D3748;
+            --text-primary: #E0E0E0;
+            --text-secondary: #A0A0A0;
+            --danger: #FF6B6B;
+            --success: #51CF66;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 480px;
+            margin: 0 auto;
+            background-color: var(--dark-bg);
+            min-height: 100vh;
+        }
+
+        .cover-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #0F1419 0%, #1A1F2E 100%);
+        }
+
+        .cover-page.hidden { display: none; }
+
+        .hourglass-container {
+            position: relative;
+            width: 200px;
+            height: 250px;
+            margin-bottom: 30px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .cover-title {
+            font-size: 36px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #FF6B35, #4ECDC4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cover-btn {
+            padding: 14px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #FF6B35, #FFE66D);
+            color: #000;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .cover-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(255, 107, 53, 0.5);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #FF6B35, #FF8C42);
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .tab-navigation {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            padding: 10px;
+            background-color: var(--card-bg);
+            position: sticky;
+            top: 60px;
+            border-bottom: 1px solid var(--border-color);
+            z-index: 99;
+        }
+
+        .tab-button {
+            padding: 8px 6px;
+            border: 1px solid var(--border-color);
+            background-color: transparent;
+            color: var(--text-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #FF6B35, #FFE66D);
+            color: #000;
+            border-color: var(--primary);
+        }
+
+        .content {
+            padding: 16px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+            padding-bottom: 80px;
+        }
+
+        .content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--primary);
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .stat-box {
+            background: linear-gradient(135deg, #1A1F2E, #2D3748);
+            padding: 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-target {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background-color: var(--border-color);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+
+        .btn {
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            background-color: transparent;
+            color: var(--text-primary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #FF6B35, #FFE66D);
+            color: #000;
+            border-color: var(--primary);
+        }
+
+        .meal-category { margin-bottom: 12px; }
+
+        .category-header {
+            padding: 12px;
+            background: linear-gradient(135deg, #2D3748, #1A1F2E);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 13px;
+            user-select: none;
+        }
+
+        .category-header.expanded {
+            background: linear-gradient(135deg, #FF6B35, #FFE66D);
+            color: #000;
+        }
+
+        .meal-list {
+            display: none;
+            margin-top: 8px;
+            gap: 8px;
+        }
+
+        .meal-list.expanded {
+            display: grid;
+        }
+
+        .meal-item {
+            padding: 12px;
+            background: linear-gradient(135deg, #2D3748, #1A1F2E);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .meal-item:hover {
+            background: linear-gradient(135deg, #FF6B35, #FFE66D);
+            color: #000;
+            transform: translateX(4px);
+        }
+
+        .meal-info { flex: 1; }
+
+        .meal-name {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .meal-macros {
+            font-size: 11px;
+            opacity: 0.7;
+        }
+
+        .meal-details {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: var(--dark-bg);
+            border-radius: 8px;
+            font-size: 11px;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .meal-details.show { display: block; }
+
+        .recipe-section { margin-bottom: 12px; }
+
+        .recipe-section h4 {
+            color: var(--secondary);
+            font-size: 11px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .ingredient-list li {
+            margin-bottom: 4px;
+            margin-left: 16px;
+        }
+
+        .tracker-entry {
+            padding: 12px;
+            background: linear-gradient(135deg, #2D3748, #1A1F2E);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tracker-info { flex: 1; }
+
+        .tracker-name {
+            font-weight: 600;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .tracker-macros {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, #FF6B35, #FFE66D);
+            color: #000;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(255, 107, 53, 0.2);
+        }
+
+        .remove-btn {
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 4px;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .workout-item {
+            padding: 12px;
+            background: linear-gradient(135deg, #2D3748, #1A1F2E);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .workout-item:hover {
+            background: linear-gradient(135deg, #FF6B35, #FFE66D);
+            color: #000;
+            border-color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .workout-title {
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .workout-details {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .workout-exercises {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: var(--dark-bg);
+            border-radius: 8px;
+            font-size: 11px;
+            line-height: 1.6;
+            display: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .workout-exercises.show {
+            display: block;
+            max-height: 2000px;
+        }
+
+        .exercise-item {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .exercise-item:last-child {
+            border-bottom: none;
+        }
+
+        .exercise-name {
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 4px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--text-primary);
+            background-color: var(--border-color);
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cover-page" id="coverPage">
+            <div class="hourglass-container">
+                <svg class="hourglass-svg" viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%; filter: drop-shadow(0 0 20px rgba(255, 107, 53, 0.5));">
+                    <ellipse cx="100" cy="40" rx="35" ry="25" fill="#FF6B35" opacity="0.8"/>
+                    <path d="M 65 40 Q 65 70 80 85 L 120 85 Q 135 70 135 40" fill="none" stroke="#FF6B35" stroke-width="2.5"/>
+                    <rect x="95" y="85" width="10" height="60" fill="#FFE66D" opacity="0.6" />
+                    <ellipse cx="100" cy="240" rx="35" ry="25" fill="#4ECDC4" opacity="0.8"/>
+                    <path d="M 80 195 L 120 195 Q 135 210 135 240" fill="none" stroke="#4ECDC4" stroke-width="2.5"/>
+                </svg>
+            </div>
+            <div class="cover-title">HOURGLASS PHYSIQUE</div>
+            <div style="font-size: 16px; color: var(--text-secondary); text-align: center; margin-bottom: 40px;">Transform Your Body</div>
+            <button class="cover-btn" onclick="startApp()">Start Your Journey</button>
+        </div>
+
+        <div id="mainApp" style="display: none;">
+            <div class="header">
+                <h1>❤️ Hourglass Physique</h1>
+                <p id="dayCounter">Day 1 of transformation</p>
+            </div>
+
+            <div class="tab-navigation">
+                <button class="tab-button active" onclick="switchTab('dashboard')">
+                    <i class="fas fa-chart-bar"></i> Dashboard
+                </button>
+                <button class="tab-button" onclick="switchTab('meals')">
+                    <i class="fas fa-utensils"></i> Meals
+                </button>
+                <button class="tab-button" onclick="switchTab('tracker')">
+                    <i class="fas fa-fire"></i> Tracker
+                </button>
+                <button class="tab-button" onclick="switchTab('workout')">
+                    <i class="fas fa-dumbbell"></i> Workout
+                </button>
+                <button class="tab-button" onclick="switchTab('progress')">
+                    <i class="fas fa-camera"></i> Progress
+                </button>
+            </div>
+
+            <div id="dashboard" class="content active">
+                <div class="stat-grid">
+                    <div class="stat-box">
+                        <div class="stat-label">Calories</div>
+                        <div class="stat-value" style="color: var(--primary);" id="calorieDisplay">0</div>
+                        <div class="stat-target">/ 2100</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="background: linear-gradient(90deg, #FF6B35, #FFE66D); width: 0%;" id="calorieProgress"></div>
+                        </div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-label">Protein</div>
+                        <div class="stat-value" style="color: var(--secondary);" id="proteinDisplay">0g</div>
+                        <div class="stat-target">/ 150g</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="background: linear-gradient(90deg, #4ECDC4, #51CF66); width: 0%;" id="proteinProgress"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">💧 Hydration</div>
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <span style="font-size: 24px; font-weight: 700; color: var(--secondary);" id="waterDisplay">0</span>
+                        <span style="font-size: 13px; color: var(--text-secondary); align-self: center;">/ 3000 ml</span>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn" onclick="addWater(250)">+250ml</button>
+                        <button class="btn" onclick="addWater(500)">+500ml</button>
+                        <button class="btn" onclick="addWater(750)">+750ml</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="meals" class="content">
+                <div class="card">
+                    <div class="card-title">🍴 Select Meals</div>
+
+                    <div class="meal-category">
+                        <div class="category-header" onclick="toggleCategory(event)">
+                            <span>🌅 Breakfast (16)</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="meal-list" id="breakfast"></div>
+                    </div>
+
+                    <div class="meal-category">
+                        <div class="category-header" onclick="toggleCategory(event)">
+                            <span>🍽️ Lunch (18)</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="meal-list" id="lunch"></div>
+                    </div>
+
+                    <div class="meal-category">
+                        <div class="category-header" onclick="toggleCategory(event)">
+                            <span>🌙 Dinner (18)</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="meal-list" id="dinner"></div>
+                    </div>
+
+                    <div class="meal-category">
+                        <div class="category-header" onclick="toggleCategory(event)">
+                            <span>🥤 Snacks (22)</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="meal-list" id="snacks"></div>
+                    </div>
+                </div>
+
+                <div class="card" id="loggedMealsCard" style="display: none;">
+                    <div class="card-title">✅ Today's Meals</div>
+                    <div id="loggedMealsList"></div>
+                </div>
+            </div>
+
+            <div id="tracker" class="content">
+                <div class="card">
+                    <div class="card-title">🔥 Daily Breakdown</div>
+                    <div class="stat-grid">
+                        <div class="stat-box">
+                            <div class="stat-label">Total Calories</div>
+                            <div class="stat-value" style="color: var(--primary);" id="trackerCals">0</div>
+                            <div class="stat-target">/ 2100 cal</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Protein</div>
+                            <div class="stat-value" style="color: var(--secondary);" id="trackerProtein">0g</div>
+                            <div class="stat-target">/ 150g</div>
+                        </div>
+                    </div>
+
+                    <div class="stat-grid">
+                        <div class="stat-box">
+                            <div class="stat-label">Remaining</div>
+                            <div class="stat-value" style="color: var(--accent);" id="trackerRemaining">2100</div>
+                            <div class="stat-target">cal</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-label">Consumed</div>
+                            <div class="stat-value" style="color: #51CF66;" id="trackerPercent">0%</div>
+                            <div class="stat-target">of daily goal</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-title">📋 Today's Meals Log</div>
+                    <div id="trackerMealsList" style="font-size: 12px;">
+                        <p style="color: var(--text-secondary); text-align: center;">No meals logged yet</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <button class="btn btn-primary" style="width: 100%;" onclick="clearTodayLog()">
+                        🗑️ Reset Today's Log
+                    </button>
+                </div>
+            </div>
+
+            <div id="workout" class="content">
+                <div class="card">
+                    <div class="card-title">💪 6-Day Training Split</div>
+                    <div id="workoutList"></div>
+                </div>
+            </div>
+
+            <div id="progress" class="content">
+                <div class="card">
+                    <div class="card-title">📏 Measurements</div>
+                    <div class="input-group">
+                        <label class="input-label">📏 Waist (cm)</label>
+                        <input type="number" class="input-field" placeholder="Enter waist" id="waist">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">📏 Hips (cm)</label>
+                        <input type="number" class="input-field" placeholder="Enter hips" id="hips">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">📏 Chest (cm)</label>
+                        <input type="number" class="input-field" placeholder="Enter chest" id="chest">
+                    </div>
+                    <div class="input-group">
+                        <label class="input-label">⚖️ Weight (kg)</label>
+                        <input type="number" class="input-field" placeholder="Enter weight" id="weight">
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%;" onclick="saveMeasurements()">
+                        💾 Save Measurements
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const meals = {
+            breakfast: [
+                { name: 'High-Protein Oat Pancakes ⭐⭐⭐⭐⭐', calories: 325, protein: 33, ingredients: ['½ cup oats', '1 scoop protein powder', '2 egg whites + 1 whole egg', '½ banana', 'Cinnamon'], recipe: 'Blend oats, eggs, and protein powder with banana until smooth. Cook on griddle 3-4 min per side. Dust with cinnamon.' },
+                { name: 'Scrambled Eggs, Toast & Avocado ⭐⭐⭐⭐⭐', calories: 350, protein: 28, ingredients: ['2 whole eggs', '2 egg whites', '1 slice whole-grain toast', '¼ avocado'], recipe: 'Scramble eggs in non-stick pan 2-3 min. Toast bread, mash avocado on top. Serve with eggs.' },
+                { name: 'Greek Yogurt Power Bowl ⭐⭐⭐⭐⭐', calories: 300, protein: 28, ingredients: ['1 cup plain Greek yogurt', '½ cup berries', '1 tbsp chia seeds', '10 almonds'], recipe: 'Layer yogurt with berries, chia seeds, and almonds in bowl. Mix well.' },
+                { name: 'Cottage Cheese Bowl ⭐⭐⭐⭐⭐', calories: 300, protein: 28, ingredients: ['1 cup low-fat cottage cheese', '1 apple', 'Cinnamon', '1 tbsp flaxseed'], recipe: 'Scoop cottage cheese, slice apple on top, sprinkle cinnamon and flaxseed.' },
+                { name: 'Egg Muffins with Veggies ⭐⭐⭐⭐⭐', calories: 250, protein: 24, ingredients: ['2 whole eggs', '2 egg whites', 'Spinach', 'Bell peppers', 'Mushrooms'], recipe: 'Preheat oven 180°C. Whisk eggs, fill muffin tin with veggies, pour eggs over. Bake 18-20 min.' },
+                { name: 'Protein Chia Pudding ⭐⭐⭐⭐', calories: 280, protein: 25, ingredients: ['3 tbsp chia seeds', '1 scoop vanilla protein powder', '1 cup unsweetened almond milk'], recipe: 'Mix chia seeds, protein, and almond milk. Refrigerate overnight. Stir before eating.' },
+                { name: 'Turkey Sausage & Eggs ⭐⭐⭐⭐', calories: 320, protein: 30, ingredients: ['2 turkey sausages', '2 eggs', 'Mixed vegetables'], recipe: 'Cook sausages 3-4 min per side. Scramble eggs with diced veggies.' },
+                { name: 'Salmon & Avocado Toast ⭐⭐⭐⭐⭐', calories: 350, protein: 28, ingredients: ['1 slice whole-grain bread', '75g smoked salmon', '¼ avocado'], recipe: 'Toast bread, mash avocado on top, layer salmon. Squeeze lemon and add dill.' },
+                { name: 'Protein Smoothie ⭐⭐⭐⭐⭐', calories: 350, protein: 30, ingredients: ['1 scoop whey protein', '1 banana', 'Handful spinach', '1 tbsp peanut butter', 'Unsweetened almond milk'], recipe: 'Blend protein, banana, spinach, peanut butter, and almond milk with ice.' },
+                { name: 'Lean Breakfast Burrito ⭐⭐⭐⭐⭐', calories: 380, protein: 30, ingredients: ['Whole-wheat wrap', '3 egg whites + 1 egg', 'Black beans', 'Spinach'], recipe: 'Warm wrap. Scramble eggs with spinach. Fill wrap with eggs and beans. Roll tightly.' },
+                { name: 'Tofu Scramble & Veggies ⭐⭐⭐⭐', calories: 250, protein: 22, ingredients: ['150g firm tofu', 'Spinach', 'Bell peppers', 'Mushrooms'], recipe: 'Crumble tofu into hot pan. Sauté with veggies 5-7 min. Season with turmeric and garlic.' },
+                { name: 'Protein Overnight Oats ⭐⭐⭐⭐⭐', calories: 350, protein: 30, ingredients: ['½ cup oats', '1 scoop protein powder', 'Almond milk', 'Chia seeds'], recipe: 'Mix oats, protein, chia seeds, and almond milk. Refrigerate overnight. No cooking needed.' },
+                { name: 'Chicken Breakfast Wrap ⭐⭐⭐⭐⭐', calories: 370, protein: 35, ingredients: ['Whole-wheat tortilla', '100g grilled chicken breast', 'Spinach', 'Tomato'], recipe: 'Grill chicken 6-7 min. Warm tortilla, fill with chicken, spinach, and tomato. Roll tightly.' },
+                { name: 'Steak & Eggs ⭐⭐⭐⭐', calories: 400, protein: 35, ingredients: ['100g lean steak', '2 eggs', 'Vegetables'], recipe: 'Heat cast iron skillet. Sear steak 3-4 min per side. Cook eggs on the side.' },
+                { name: 'Tuna Breakfast Sandwich ⭐⭐⭐⭐⭐', calories: 320, protein: 30, ingredients: ['Whole-grain bread', '1 can tuna in water', 'Lettuce', 'Tomato'], recipe: 'Drain tuna, mix with Greek yogurt. Toast bread, layer tuna, lettuce, tomato.' },
+                { name: 'Protein French Toast ⭐⭐⭐⭐', calories: 300, protein: 28, ingredients: ['2 slices whole-grain bread', '2 egg whites + 1 egg', 'Cinnamon', 'Protein powder mixed into batter'], recipe: 'Mix eggs, cinnamon, protein powder. Dip bread, cook griddle 2-3 min per side.' },
+            ],
+            lunch: [
+                { name: 'Chicken Buddha Bowl ⭐⭐⭐⭐⭐', calories: 500, protein: 38, ingredients: ['120g grilled chicken breast', '½ cup brown rice', '1 cup mixed greens', '½ avocado', 'Cucumber and cherry tomatoes', '1 tbsp olive oil'], recipe: 'Grill chicken. Arrange rice, greens, avocado, and vegetables in bowl. Top with chicken, drizzle oil.' },
+                { name: 'Salmon & Quinoa Bowl ⭐⭐⭐⭐⭐', calories: 520, protein: 35, ingredients: ['120g salmon fillet', '¾ cup cooked quinoa', 'Broccoli', 'Lemon juice'], recipe: 'Bake salmon at 200°C for 15 min. Cook quinoa. Steam broccoli. Assemble and drizzle lemon.' },
+                { name: 'Turkey Tacos ⭐⭐⭐⭐⭐', calories: 450, protein: 35, ingredients: ['120g lean turkey mince', '2 corn tortillas', 'Lettuce', 'Tomato', 'Avocado salsa'], recipe: 'Cook turkey with taco seasoning. Warm tortillas. Fill with turkey and vegetables.' },
+                { name: 'Tuna & Sweet Potato Bowl ⭐⭐⭐⭐⭐', calories: 450, protein: 36, ingredients: ['1 can tuna in water', '1 medium sweet potato', 'Green beans', '1 tsp olive oil'], recipe: 'Bake sweet potato. Steam green beans. Add drained tuna and olive oil.' },
+                { name: 'Beef Stir-Fry ⭐⭐⭐⭐', calories: 500, protein: 35, ingredients: ['120g lean beef strips', 'Bell peppers', 'Broccoli', 'Carrots', '½ cup brown rice'], recipe: 'Stir-fry beef, add vegetables. Serve over brown rice.' },
+                { name: 'Shrimp Pasta ⭐⭐⭐⭐', calories: 500, protein: 35, ingredients: ['120g shrimp', '1 cup whole-wheat pasta', 'Spinach', 'Garlic', 'Olive oil'], recipe: 'Cook pasta. Sauté shrimp and garlic. Add spinach. Mix with pasta.' },
+                { name: 'Chicken & Sweet Potato Meal Prep ⭐⭐⭐⭐⭐', calories: 450, protein: 40, ingredients: ['120g grilled chicken breast', '150g sweet potato', 'Broccoli'], recipe: 'Bake sweet potatoes. Grill chicken. Steam broccoli. Portion into containers.' },
+                { name: 'Grilled Chicken Wrap ⭐⭐⭐⭐⭐', calories: 450, protein: 38, ingredients: ['Whole-wheat wrap', '120g grilled chicken', 'Lettuce', 'Tomato', 'Greek yogurt dressing'], recipe: 'Fill wrap with ingredients. Roll tightly and serve.' },
+                { name: 'Steak & Quinoa Salad ⭐⭐⭐⭐', calories: 500, protein: 35, ingredients: ['120g lean steak', '½ cup quinoa', 'Mixed greens', 'Cucumber', 'Olive oil dressing'], recipe: 'Grill steak. Combine salad ingredients. Slice steak and place on top.' },
+                { name: 'Chicken Fajita Bowl ⭐⭐⭐⭐⭐', calories: 480, protein: 40, ingredients: ['120g chicken breast', 'Bell peppers', 'Onions', '½ cup brown rice', 'Salsa'], recipe: 'Grill chicken and vegetables. Serve over rice. Add salsa.' },
+                { name: 'Mediterranean Chicken Salad ⭐⭐⭐⭐⭐', calories: 420, protein: 35, ingredients: ['120g grilled chicken', 'Mixed greens', 'Cucumber', 'Tomatoes', 'Feta cheese', 'Olive oil'], recipe: 'Combine vegetables. Add sliced chicken. Top with feta and olive oil.' },
+                { name: 'Tuna Avocado Salad ⭐⭐⭐⭐⭐', calories: 400, protein: 32, ingredients: ['1 can tuna', '½ avocado', 'Lettuce', 'Tomatoes', 'Cucumber'], recipe: 'Mix vegetables. Add tuna and avocado. Toss lightly.' },
+                { name: 'Teriyaki Salmon Bowl ⭐⭐⭐⭐', calories: 520, protein: 35, ingredients: ['120g salmon', '½ cup jasmine rice', 'Edamame', 'Broccoli'], recipe: 'Bake salmon. Cook rice. Steam vegetables. Serve together.' },
+                { name: 'Lean Beef & Sweet Potato Bowl ⭐⭐⭐⭐', calories: 500, protein: 35, ingredients: ['120g lean beef mince', 'Sweet potato cubes', 'Spinach', 'Onion'], recipe: 'Cook beef and onions. Roast sweet potatoes. Mix with spinach.' },
+                { name: 'Chicken & Couscous Salad ⭐⭐⭐⭐', calories: 460, protein: 38, ingredients: ['120g chicken breast', '½ cup couscous', 'Cucumber', 'Tomatoes', 'Parsley'], recipe: 'Prepare couscous. Grill chicken. Combine ingredients.' },
+                { name: 'Prawn & Rice Bowl ⭐⭐⭐⭐', calories: 450, protein: 32, ingredients: ['120g prawns', '½ cup brown rice', 'Mixed vegetables', 'Lemon juice'], recipe: 'Cook prawns. Steam vegetables. Serve over rice.' },
+                { name: 'High-Protein Chicken Pasta ⭐⭐⭐⭐⭐', calories: 500, protein: 40, ingredients: ['120g chicken breast', 'Whole-wheat pasta', 'Spinach', 'Light cream cheese'], recipe: 'Cook pasta. Grill chicken. Mix with spinach and cream cheese sauce.' },
+                { name: 'Grilled Chicken & Avocado Salad ⭐⭐⭐⭐⭐', calories: 420, protein: 38, ingredients: ['120g chicken breast', 'Mixed greens', '½ avocado', 'Cherry tomatoes', 'Cucumber', 'Olive oil dressing'], recipe: 'Grill chicken. Combine vegetables. Top with avocado and sliced chicken.' },
+            ],
+            dinner: [
+                { name: 'Salmon & Sweet Potato ⭐⭐⭐⭐⭐', calories: 450, protein: 35, ingredients: ['120–150g salmon fillet', '1 medium sweet potato', '1 cup broccoli', 'Lemon juice', 'Salt and pepper'], recipe: 'Season salmon and bake at 200°C for 15-18 min. Bake sweet potato. Steam broccoli. Serve with lemon.' },
+                { name: 'Beef Steak & Asparagus ⭐⭐⭐⭐⭐', calories: 420, protein: 35, ingredients: ['120g lean steak', 'Asparagus spears', '1 tsp olive oil', 'Garlic', 'Black pepper'], recipe: 'Grill steak to preferred doneness. Sauté asparagus in olive oil and garlic. Serve together.' },
+                { name: 'Chicken & Broccoli ⭐⭐⭐⭐⭐', calories: 350, protein: 40, ingredients: ['150g chicken breast', '2 cups broccoli', '1 tsp olive oil', 'Mixed herbs'], recipe: 'Grill chicken breast. Steam broccoli. Add herbs and olive oil.' },
+                { name: 'Tuna Steak & Vegetables ⭐⭐⭐⭐⭐', calories: 360, protein: 38, ingredients: ['150g tuna steak', 'Zucchini', 'Bell peppers', 'Olive oil spray'], recipe: 'Grill tuna steak. Roast vegetables. Serve immediately.' },
+                { name: 'Pork Tenderloin & Green Beans ⭐⭐⭐⭐', calories: 400, protein: 35, ingredients: ['120g pork tenderloin', 'Green beans', 'Garlic', 'Olive oil'], recipe: 'Roast pork until cooked through. Sauté green beans with garlic. Serve hot.' },
+                { name: 'Lamb Chops & Greek Salad ⭐⭐⭐⭐', calories: 500, protein: 35, ingredients: ['2 lean lamb chops', 'Lettuce', 'Cucumber', 'Tomato', 'Feta cheese'], recipe: 'Grill lamb chops. Prepare Greek salad. Serve together.' },
+                { name: 'Garlic Shrimp & Vegetables ⭐⭐⭐⭐⭐', calories: 350, protein: 35, ingredients: ['150g shrimp', 'Broccoli', 'Bell peppers', 'Garlic', 'Olive oil'], recipe: 'Sauté shrimp with garlic. Add vegetables and cook until tender. Serve immediately.' },
+                { name: 'Chicken Stir-Fry ⭐⭐⭐⭐⭐', calories: 400, protein: 40, ingredients: ['150g chicken breast', 'Mixed vegetables', 'Low-sodium soy sauce', 'Garlic and ginger'], recipe: 'Cook chicken strips. Add vegetables. Stir in soy sauce and seasonings.' },
+                { name: 'Baked Hake & Spinach ⭐⭐⭐⭐⭐', calories: 320, protein: 35, ingredients: ['150g hake fillet', '2 cups spinach', 'Lemon juice', 'Garlic'], recipe: 'Bake hake for 15 min. Sauté spinach and garlic. Serve with lemon.' },
+                { name: 'Turkey Meatballs & Zucchini Noodles ⭐⭐⭐⭐⭐', calories: 400, protein: 38, ingredients: ['150g lean turkey mince', 'Zucchini noodles', 'Tomato sauce', 'Garlic'], recipe: 'Form and bake meatballs. Lightly cook zucchini noodles. Top with sauce and meatballs.' },
+                { name: 'Grilled Chicken Caesar Salad ⭐⭐⭐⭐', calories: 380, protein: 40, ingredients: ['150g chicken breast', 'Romaine lettuce', 'Parmesan cheese', 'Greek yogurt dressing'], recipe: 'Grill chicken. Toss salad ingredients together. Add chicken on top.' },
+                { name: 'Lean Beef Mince Bowl ⭐⭐⭐⭐', calories: 380, protein: 35, ingredients: ['120g lean beef mince', 'Cauliflower rice', 'Bell peppers', 'Onions'], recipe: 'Cook mince thoroughly. Sauté vegetables. Serve over cauliflower rice.' },
+                { name: 'Grilled Chicken & Avocado Salad ⭐⭐⭐⭐⭐', calories: 420, protein: 40, ingredients: ['150g chicken breast', 'Mixed greens', '½ avocado', 'Cucumber', 'Tomatoes'], recipe: 'Grill chicken. Combine vegetables. Top with avocado and sliced chicken.' },
+                { name: 'Lemon Herb Tilapia & Vegetables ⭐⭐⭐⭐⭐', calories: 330, protein: 35, ingredients: ['150g tilapia', 'Green beans', 'Broccoli', 'Lemon', 'Mixed herbs'], recipe: 'Bake tilapia with herbs and lemon. Steam vegetables. Serve together.' },
+                { name: 'Chicken & Quinoa Bowl ⭐⭐⭐⭐⭐', calories: 450, protein: 42, ingredients: ['150g grilled chicken', '½ cup quinoa', 'Spinach', 'Cucumber', 'Olive oil dressing'], recipe: 'Cook quinoa. Grill chicken. Combine all ingredients.' },
+                { name: 'Stuffed Bell Peppers ⭐⭐⭐⭐', calories: 380, protein: 35, ingredients: ['120g lean turkey mince', 'Bell peppers', 'Tomato sauce', 'Onion'], recipe: 'Cook turkey mince. Stuff peppers with mince. Bake for 25 min.' },
+                { name: 'Chicken & Vegetable Soup ⭐⭐⭐⭐⭐', calories: 300, protein: 35, ingredients: ['150g shredded chicken breast', 'Carrots', 'Celery', 'Spinach', 'Low-sodium chicken broth'], recipe: 'Add ingredients to broth. Simmer for 20 min. Serve warm.' },
+                { name: 'Salmon Salad Bowl ⭐⭐⭐⭐⭐', calories: 420, protein: 35, ingredients: ['120g grilled salmon', 'Mixed greens', 'Avocado', 'Cucumber', 'Cherry tomatoes'], recipe: 'Grill salmon. Prepare salad. Place salmon on top.' },
+            ],
+            snacks: [
+                { name: 'Whey Protein Shake ⭐⭐⭐⭐⭐', calories: 135, protein: 25, ingredients: ['1 scoop whey protein', '250ml water or unsweetened almond milk', 'Ice cubes'], recipe: 'Blend or shake ingredients. Drink after workouts or between meals.' },
+                { name: 'Greek Yogurt Bowl ⭐⭐⭐⭐⭐', calories: 180, protein: 20, ingredients: ['1 cup plain Greek yogurt', '½ cup berries', '1 tsp chia seeds'], recipe: 'Combine ingredients in bowl. Serve chilled.' },
+                { name: 'Apple & Almond Butter ⭐⭐⭐⭐', calories: 180, protein: 5, ingredients: ['1 apple', '1 tbsp almond butter'], recipe: 'Slice apple. Dip into almond butter.' },
+                { name: 'Hard-Boiled Eggs ⭐⭐⭐⭐⭐', calories: 140, protein: 12, ingredients: ['2 eggs'], recipe: 'Boil eggs for 10-12 min. Cool and peel.' },
+                { name: 'High-Protein Bar ⭐⭐⭐⭐', calories: 215, protein: 18, ingredients: ['Store-bought bar with 15-20g protein, less than 8g sugar'], recipe: 'Ready to eat.' },
+                { name: 'Edamame Beans ⭐⭐⭐⭐⭐', calories: 190, protein: 17, ingredients: ['1 cup shelled edamame', 'Sea salt'], recipe: 'Steam or microwave. Sprinkle with salt.' },
+                { name: 'Cottage Cheese & Pineapple ⭐⭐⭐⭐⭐', calories: 220, protein: 24, ingredients: ['1 cup low-fat cottage cheese', '½ cup pineapple chunks'], recipe: 'Mix and serve.' },
+                { name: 'Tuna & Cucumber Bites ⭐⭐⭐⭐⭐', calories: 120, protein: 18, ingredients: ['½ can tuna', 'Cucumber slices'], recipe: 'Top cucumber slices with tuna. Serve cold.' },
+                { name: 'Protein Smoothie ⭐⭐⭐⭐⭐', calories: 180, protein: 25, ingredients: ['1 scoop protein powder', '½ banana', 'Almond milk', 'Ice'], recipe: 'Blend until smooth.' },
+                { name: 'Turkey Roll-Ups ⭐⭐⭐⭐⭐', calories: 120, protein: 18, ingredients: ['4 slices turkey breast', 'Cucumber strips'], recipe: 'Roll turkey around cucumber.' },
+                { name: 'Rice Cakes & Peanut Butter ⭐⭐⭐⭐', calories: 180, protein: 6, ingredients: ['2 rice cakes', '1 tbsp natural peanut butter'], recipe: 'Spread peanut butter on rice cakes.' },
+                { name: 'Protein Overnight Oats ⭐⭐⭐⭐⭐', calories: 180, protein: 15, ingredients: ['¼ cup oats', '½ scoop protein powder', 'Almond milk'], recipe: 'Mix ingredients. Refrigerate overnight.' },
+                { name: 'Roasted Chickpeas ⭐⭐⭐⭐', calories: 180, protein: 12, ingredients: ['1 cup chickpeas', 'Paprika', 'Garlic powder'], recipe: 'Roast at 200°C for 25 min. Cool before eating.' },
+                { name: 'Beef Biltong ⭐⭐⭐⭐⭐', calories: 140, protein: 20, ingredients: ['40g lean beef biltong'], recipe: 'Ready to eat.' },
+                { name: 'Cheese & Grapes ⭐⭐⭐⭐', calories: 160, protein: 8, ingredients: ['30g low-fat cheese', '1 cup grapes'], recipe: 'Portion and enjoy.' },
+                { name: 'Shrimp Snack Box ⭐⭐⭐⭐⭐', calories: 120, protein: 20, ingredients: ['100g cooked shrimp', 'Cucumber sticks', 'Lemon wedges'], recipe: 'Serve chilled with lemon.' },
+                { name: 'Chocolate Protein Pudding ⭐⭐⭐⭐⭐', calories: 200, protein: 30, ingredients: ['1 scoop chocolate protein powder', '½ cup Greek yogurt'], recipe: 'Mix until smooth. Refrigerate 15 min.' },
+                { name: 'Avocado & Egg Snack ⭐⭐⭐⭐', calories: 150, protein: 8, ingredients: ['1 boiled egg', '¼ avocado'], recipe: 'Slice egg and avocado. Season lightly.' },
+                { name: 'Chicken Snack Box ⭐⭐⭐⭐⭐', calories: 180, protein: 30, ingredients: ['100g grilled chicken breast', 'Cherry tomatoes', 'Cucumber sticks'], recipe: 'Portion into container. Enjoy cold or warm.' },
+                { name: 'Greek Yogurt & Almonds ⭐⭐⭐⭐⭐', calories: 190, protein: 18, ingredients: ['¾ cup Greek yogurt', '10 almonds'], recipe: 'Add almonds to yogurt. Serve.' },
+                { name: 'Protein Energy Balls ⭐⭐⭐⭐', calories: 180, protein: 12, ingredients: ['½ cup oats', '1 scoop protein powder', '1 tbsp peanut butter', 'Honey (optional)'], recipe: 'Mix ingredients. Roll into balls. Refrigerate.' },
+                { name: 'Smoked Salmon Cucumber Rolls ⭐⭐⭐⭐⭐', calories: 150, protein: 18, ingredients: ['60g smoked salmon', 'Cucumber strips', 'Cream cheese (light)'], recipe: 'Spread cream cheese on salmon. Wrap around cucumber.' },
+            ]
+        };
+
+        const workouts = {
+            monday: {
+                name: 'Lower Power',
+                duration: 75,
+                focus: 'Glutes & Quads - Build lower-body strength and glute size',
+                exercises: [
+                    { name: 'Barbell Hip Thrusts', sets: '4 x 6-8', weight: 'Heavy', rest: '2-3 min', notes: 'Focus on glute squeeze' },
+                    { name: 'Back Squats', sets: '4 x 6-8', weight: 'Heavy', rest: '2-3 min', notes: 'Full range of motion' },
+                    { name: 'Bulgarian Split Squats', sets: '3 x 8 each leg', weight: 'Moderate', rest: '90 sec', notes: 'Unilateral glute work' },
+                    { name: 'Leg Press (feet high and wide)', sets: '3 x 10', weight: 'Moderate-Heavy', rest: '2 min', notes: 'Glute-dominant foot position' },
+                    { name: 'Walking Lunges', sets: '3 x 12 each leg', weight: 'Moderate', rest: '90 sec', notes: 'Controlled movement' },
+                    { name: 'Standing Calf Raises', sets: '4 x 15', weight: 'Moderate', rest: '60 sec', notes: 'Full range, squeeze at top' },
+                    { name: 'Finisher: Banded Glute Burnout', sets: '3 mins', weight: 'Light', rest: 'Continuous', notes: 'Non-stop glute activation' },
+                ]
+            },
+            tuesday: {
+                name: 'Upper Hypertrophy',
+                duration: 70,
+                focus: 'Back & Shoulders - Create V-taper and accentuate waist',
+                exercises: [
+                    { name: 'Lat Pulldowns', sets: '4 x 10-12', weight: 'Moderate', rest: '90 sec', notes: 'Focus on lat contraction' },
+                    { name: 'Seated Cable Rows', sets: '3 x 12', weight: 'Moderate', rest: '90 sec', notes: 'Full stretch and squeeze' },
+                    { name: 'Single-Arm Dumbbell Row', sets: '3 x 12', weight: 'Moderate', rest: '90 sec', notes: 'Unilateral back work' },
+                    { name: 'Dumbbell Shoulder Press', sets: '3 x 10', weight: 'Moderate', rest: '2 min', notes: 'Build shoulder caps' },
+                    { name: 'Lateral Raises', sets: '4 x 15', weight: 'Light', rest: '60 sec', notes: 'Strict form, no momentum' },
+                    { name: 'Rear Delt Flyes', sets: '4 x 15', weight: 'Light', rest: '60 sec', notes: 'Rear shoulder definition' },
+                    { name: 'Vacuum Holds', sets: '3 x 30 sec', weight: 'Bodyweight', rest: '60 sec', notes: 'Core/ab work' },
+                    { name: 'Dead Bugs', sets: '3 x 15', weight: 'Bodyweight', rest: '60 sec', notes: 'Core stability' },
+                ]
+            },
+            wednesday: {
+                name: 'Active Recovery',
+                duration: 45,
+                focus: 'LISS - Mobility and recovery',
+                exercises: [
+                    { name: 'Incline Treadmill Walk', sets: '15 min', weight: 'Light', rest: 'N/A', notes: 'Moderate intensity' },
+                    { name: 'Stair Climber', sets: '15 min', weight: 'Light', rest: 'N/A', notes: 'Glute activation' },
+                    { name: 'Cycling', sets: '15 min', weight: 'Light', rest: 'N/A', notes: 'Low-impact cardio' },
+                    { name: 'Mobility & Stretching', sets: '15 min', weight: 'N/A', rest: 'N/A', notes: 'Hip, hamstring, shoulder flexibility' },
+                    { name: 'Plank', sets: '3 x 45 sec', weight: 'Bodyweight', rest: '60 sec', notes: 'Core endurance' },
+                    { name: 'Bird Dogs', sets: '3 x 15', weight: 'Bodyweight', rest: '60 sec', notes: 'Core stability & glute activation' },
+                ]
+            },
+            thursday: {
+                name: 'Lower Hypertrophy',
+                duration: 80,
+                focus: 'Glutes & Hamstrings - Maximum glute growth',
+                exercises: [
+                    { name: 'Romanian Deadlifts', sets: '4 x 10-12', weight: 'Heavy', rest: '2 min', notes: 'Hamstring and glute focus' },
+                    { name: 'Hip Thrusts', sets: '4 x 12', weight: 'Heavy', rest: '2 min', notes: 'GLUTE ESSENTIAL - squeeze hard' },
+                    { name: 'Cable Kickbacks', sets: '3 x 15', weight: 'Moderate', rest: '90 sec', notes: 'Controlled glute contraction' },
+                    { name: 'Hamstring Curls', sets: '4 x 12', weight: 'Moderate', rest: '90 sec', notes: 'Full hamstring engagement' },
+                    { name: 'Glute-Focused Step-Ups', sets: '3 x 12', weight: 'Moderate', rest: '90 sec', notes: 'Emphasize glute push' },
+                    { name: 'Hip Abduction Machine', sets: '4 x 20', weight: 'Light-Moderate', rest: '60 sec', notes: 'High reps for glute detail' },
+                    { name: 'Finisher: Banded Abductions', sets: '2 x 30', weight: 'Light', rest: '30 sec', notes: 'Glute pump' },
+                    { name: 'Frog Pumps', sets: '2 x 30', weight: 'Bodyweight', rest: 'N/A', notes: 'Glute finisher' },
+                ]
+            },
+            friday: {
+                name: 'Upper Power',
+                duration: 70,
+                focus: 'Shoulders & Chest - Build shoulder caps and upper-body definition',
+                exercises: [
+                    { name: 'Overhead Press', sets: '4 x 6-8', weight: 'Heavy', rest: '2-3 min', notes: 'Shoulder strength' },
+                    { name: 'Incline Dumbbell Press', sets: '4 x 8', weight: 'Heavy', rest: '2-3 min', notes: 'Upper chest & shoulders' },
+                    { name: 'Lateral Raises', sets: '4 x 12', weight: 'Moderate', rest: '60 sec', notes: 'Shoulder width' },
+                    { name: 'Arnold Press', sets: '3 x 10', weight: 'Moderate', rest: '90 sec', notes: 'Complete shoulder development' },
+                    { name: 'Cable Face Pulls', sets: '3 x 15', weight: 'Light', rest: '60 sec', notes: 'Rear delt & shoulder health' },
+                    { name: 'Push-Ups', sets: '3 to failure', weight: 'Bodyweight', rest: '2 min', notes: 'Chest and tricep finisher' },
+                    { name: 'Hanging Knee Raises', sets: '3 x 15', weight: 'Bodyweight', rest: '60 sec', notes: 'Core strength' },
+                    { name: 'Vacuum Holds', sets: '3 x 30 sec', weight: 'Bodyweight', rest: '60 sec', notes: 'Waist definition' },
+                ]
+            },
+            saturday: {
+                name: 'Full Body Metabolic Circuit',
+                duration: 60,
+                focus: 'Full Body - Burn fat and build endurance',
+                exercises: [
+                    { name: 'Circuit Round 1-4', sets: '4 rounds total', weight: 'Moderate', rest: '60 sec between rounds', notes: 'Perform all exercises consecutively' },
+                    { name: 'Kettlebell Swings', sets: '15 reps', weight: 'Moderate', rest: 'None', notes: 'Power and cardio' },
+                    { name: 'Goblet Squats', sets: '15 reps', weight: 'Moderate', rest: 'None', notes: 'Leg and core work' },
+                    { name: 'Dumbbell RDL', sets: '12 reps', weight: 'Moderate', rest: 'None', notes: 'Hamstring and glute' },
+                    { name: 'Battle Ropes', sets: '30 sec', weight: 'Moderate', rest: 'None', notes: 'Cardio blast' },
+                    { name: 'Step-Ups', sets: '12 each leg', weight: 'Moderate', rest: 'None', notes: 'Glute and quad work' },
+                    { name: 'Mountain Climbers', sets: '30 sec', weight: 'Bodyweight', rest: 'None', notes: 'Full body cardio' },
+                    { name: 'Finisher: 15 min Incline Walk', sets: '15 min', weight: 'Light', rest: 'N/A', notes: 'Cool down with low-impact cardio' },
+                ]
+            },
+            sunday: {
+                name: 'Rest Day',
+                duration: 0,
+                focus: 'Recovery - Complete rest or light activity',
+                exercises: [
+                    { name: 'Complete Rest', sets: '24 hours', weight: 'N/A', rest: 'All day', notes: 'Recovery is crucial' },
+                    { name: 'Optional: Light Walking', sets: '20-30 min', weight: 'Very Light', rest: 'N/A', notes: 'Easy pace only' },
+                    { name: 'Optional: Stretching', sets: '15-20 min', weight: 'N/A', rest: 'N/A', notes: 'Mobility work' },
+                    { name: 'Optional: Yoga', sets: '20-30 min', weight: 'Bodyweight', rest: 'N/A', notes: 'Gentle flows only' },
+                ]
+            }
+        };
+
+        let appState = {
+            targetCalories: 2100,
+            targetProtein: 150,
+            todayLog: {
+                meals: [],
+                calories: 0,
+                protein: 0,
+                water: 0,
+            }
+        };
+
+        function startApp() {
+            document.getElementById('coverPage').style.display = 'none';
+            document.getElementById('mainApp').style.display = 'block';
+            loadState();
+            renderMeals();
+            renderWorkouts();
+            updateDashboard();
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem('hourglass-app');
+            if (saved) appState = JSON.parse(saved);
+        }
+
+        function saveState() {
+            localStorage.setItem('hourglass-app', JSON.stringify(appState));
+            updateDashboard();
+            updateTrackerDisplay();
+        }
+
+        function renderMeals() {
+            Object.keys(meals).forEach(category => {
+                const container = document.getElementById(category);
+                container.innerHTML = meals[category]
+                    .map((meal, idx) => `
+                        <div class="meal-item">
+                            <div class="meal-info">
+                                <div class="meal-name">${meal.name}</div>
+                                <div class="meal-macros">${meal.calories}cal • ${meal.protein}g protein</div>
+                            </div>
+                            <button class="add-btn" onclick="toggleMealDetails('${category}-${idx}')"><i class="fas fa-plus"></i> View</button>
+                        </div>
+                        <div class="meal-details" id="${category}-${idx}">
+                            <div class="recipe-section">
+                                <h4>Ingredients</h4>
+                                <ul class="ingredient-list">${meal.ingredients.map(ing => `<li>${ing}</li>`).join('')}</ul>
+                            </div>
+                            <div class="recipe-section">
+                                <h4>Recipe</h4>
+                                <div class="recipe-text">${meal.recipe}</div>
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%; margin-top: 12px;" onclick="addMeal('${category}', ${idx})"><i class="fas fa-plus"></i> Add to Today</button>
+                        </div>
+                    `).join('');
+            });
+        }
+
+        function toggleMealDetails(id) {
+            document.getElementById(id).classList.toggle('show');
+        }
+
+        function addMeal(category, index) {
+            const meal = meals[category][index];
+            appState.todayLog.meals.push({ ...meal, category });
+            appState.todayLog.calories += meal.calories;
+            appState.todayLog.protein += meal.protein;
+            saveState();
+        }
+
+        function removeMeal(index) {
+            const meal = appState.todayLog.meals[index];
+            appState.todayLog.calories -= meal.calories;
+            appState.todayLog.protein -= meal.protein;
+            appState.todayLog.meals.splice(index, 1);
+            saveState();
+        }
+
+        function renderWorkouts() {
+            const container = document.getElementById('workoutList');
+            container.innerHTML = Object.entries(workouts)
+                .map(([day, details]) => `
+                    <div class="workout-item" onclick="toggleWorkoutDetails('${day}')">
+                        <div class="workout-title">${details.name}</div>
+                        <div class="workout-details">${details.duration} min • ${details.focus}</div>
+                        <div class="workout-exercises" id="workout-${day}">
+                            ${details.exercises.map(ex => `
+                                <div class="exercise-item">
+                                    <div class="exercise-name">${ex.name}</div>
+                                    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">
+                                        <strong>Sets:</strong> ${ex.sets} | <strong>Weight:</strong> ${ex.weight} | <strong>Rest:</strong> ${ex.rest}<br>
+                                        <em style="color: var(--accent);">💡 ${ex.notes}</em>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `).join('');
+        }
+
+        function toggleWorkoutDetails(day) {
+            const detailsEl = document.getElementById(`workout-${day}`);
+            detailsEl.classList.toggle('show');
+        }
+
+        function addWater(amount) {
+            appState.todayLog.water += amount;
+            saveState();
+        }
+
+        function clearTodayLog() {
+            if (confirm('Reset today\'s log?')) {
+                appState.todayLog = { meals: [], calories: 0, protein: 0, water: 0 };
+                saveState();
+            }
+        }
+
+        function updateDashboard() {
+            const { calories, protein, water } = appState.todayLog;
+            document.getElementById('calorieDisplay').textContent = Math.round(calories);
+            document.getElementById('proteinDisplay').textContent = Math.round(protein) + 'g';
+            document.getElementById('waterDisplay').textContent = water;
+
+            const calPercent = Math.min((calories / appState.targetCalories) * 100, 100);
+            const protPercent = Math.min((protein / appState.targetProtein) * 100, 100);
+            document.getElementById('calorieProgress').style.width = calPercent + '%';
+            document.getElementById('proteinProgress').style.width = protPercent + '%';
+
+            updateMealsDisplay();
+        }
+
+        function updateMealsDisplay() {
+            const card = document.getElementById('loggedMealsCard');
+            const list = document.getElementById('loggedMealsList');
+            
+            if (appState.todayLog.meals.length === 0) {
+                card.style.display = 'none';
+                return;
+            }
+
+            card.style.display = 'block';
+            list.innerHTML = appState.todayLog.meals
+                .map((meal, idx) => `
+                    <div class="tracker-entry">
+                        <div class="tracker-info">
+                            <div class="tracker-name">${meal.name}</div>
+                            <div class="tracker-macros">${meal.calories}cal • ${meal.protein}g protein</div>
+                        </div>
+                        <button class="remove-btn" onclick="removeMeal(${idx})"><i class="fas fa-trash"></i></button>
+                    </div>
+                `).join('');
+        }
+
+        function updateTrackerDisplay() {
+            const { calories, protein } = appState.todayLog;
+            const remaining = Math.max(0, appState.targetCalories - calories);
+            const percent = Math.round((calories / appState.targetCalories) * 100);
+
+            document.getElementById('trackerCals').textContent = Math.round(calories);
+            document.getElementById('trackerProtein').textContent = Math.round(protein) + 'g';
+            document.getElementById('trackerRemaining').textContent = remaining;
+            document.getElementById('trackerPercent').textContent = percent + '%';
+
+            const list = document.getElementById('trackerMealsList');
+            if (appState.todayLog.meals.length === 0) {
+                list.innerHTML = '<p style="color: var(--text-secondary); text-align: center;">No meals logged yet</p>';
+                return;
+            }
+
+            list.innerHTML = appState.todayLog.meals
+                .map((meal, idx) => `
+                    <div class="tracker-entry">
+                        <div class="tracker-info">
+                            <div class="tracker-name">${meal.name}</div>
+                            <div class="tracker-macros">${meal.calories}cal • ${meal.protein}g protein</div>
+                        </div>
+                        <button class="remove-btn" onclick="removeMeal(${idx})"><i class="fas fa-trash"></i></button>
+                    </div>
+                `).join('');
+        }
+
+        function saveMeasurements() {
+            alert('✓ Measurements saved!');
+            saveState();
+        }
+
+        function toggleCategory(event) {
+            const header = event.currentTarget;
+            const list = header.nextElementSibling;
+            list.classList.toggle('expanded');
+            header.classList.toggle('expanded');
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.target.closest('.tab-button').classList.add('active');
+        }
+
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(registration => {
+                    console.log('✓ Service Worker registered:', registration);
+                })
+                .catch(error => {
+                    console.log('Service Worker registration failed:', error);
+                });
+        }
+
+        // Detect if app is installable and show install prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            console.log('✓ App is installable');
+        });
+
+        window.addEventListener('appinstalled', () => {
+            console.log('✓ App was installed');
+            deferredPrompt = null;
+        });
+    </script>
+</body>
+</html>
